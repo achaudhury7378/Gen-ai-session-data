@@ -41,21 +41,43 @@ procurement_df = pd.DataFrame({
     "expedite_option": np.random.choice([True, False], num_pos, p=[0.4, 0.6]),
     "alternate_supplier_ids": [",".join(np.random.choice(supplier_df["supplier_id"], random.randint(1,3))) for _ in range(num_pos)]
 })
+# --- 3. Plant Dataset ---
+plant_list = [
+    {"plant_id": "P001", "plant_location": "Pune", "plant_name": "Pune Assembly"},
+    {"plant_id": "P002", "plant_location": "Delhi", "plant_name": "Delhi Components"},
+    {"plant_id": "P003", "plant_location": "Hyderabad", "plant_name": "Hyd Parts Plant"},
+    {"plant_id": "P004", "plant_location": "Kolkata", "plant_name": "Kolkata Finishing"}
+]
+
+plant_df = pd.DataFrame(plant_list)
 
 # --- 3. Logistics Dataset ---
+# --- 4. Logistics Dataset ---
 num_shipments = 25
-logistics_df = pd.DataFrame({
-    "shipment_id": [f"SH{2000+i}" for i in range(num_shipments)],
-    "po_id": np.random.choice(procurement_df["po_id"], num_shipments),
-    "origin": np.random.choice(["Mumbai", "Chennai", "Shanghai", "Singapore", "Dubai"], num_shipments),
-    "destination": np.random.choice(["Pune", "Delhi", "Hyderabad", "Kolkata"], num_shipments),
-    "route_id": [f"R{random.randint(1,5)}" for _ in range(num_shipments)],
-    "carrier_id": [f"C{random.randint(100,200)}" for _ in range(num_shipments)],
-    "status": np.random.choice(["In Transit", "Delayed", "Delivered"], num_shipments, p=[0.4, 0.2, 0.4]),
-    "estimated_arrival": [(datetime.now() + timedelta(days=random.randint(1,10))).strftime("%Y-%m-%d") for _ in range(num_shipments)],
-    "delay_reason": [random_delay_reason() for _ in range(num_shipments)],
-    "reroute_possible": np.random.choice([True, False], num_shipments, p=[0.5, 0.5])
-})
+
+# Randomly assign each shipment to one of the plants
+logistics_records = []
+for i in range(num_shipments):
+    plant = random.choice(plant_list)
+    po = random.choice(procurement_df["po_id"])
+    status = np.random.choice(["In Transit", "Delayed", "Delivered"], p=[0.4, 0.2, 0.4])
+    logistics_records.append({
+        "shipment_id": f"SH{2000+i}",
+        "po_id": po,
+        "plant_id": plant["plant_id"],  # 🔗 Connects to Plant
+        "destination": plant["plant_location"],
+        "origin": random.choice(["Mumbai", "Chennai", "Shanghai", "Singapore", "Dubai"]),
+        "route_id": f"R{random.randint(1,5)}",
+        "carrier_id": f"C{random.randint(100,200)}",
+        "status": status,
+        "estimated_arrival": (datetime.now() + timedelta(days=random.randint(1,10))).strftime("%Y-%m-%d"),
+        "delay_reason": random_delay_reason() if status == "Delayed" else "None",
+        "reroute_possible": np.random.choice([True, False], p=[0.5, 0.5]),
+        "lead_time_days": random.randint(3, 10)
+    })
+
+logistics_df = pd.DataFrame(logistics_records)
+
 
 # --- 4. Production Dataset ---
 plants = ["P001", "P002", "P003"]
