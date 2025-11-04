@@ -1,0 +1,72 @@
+. Supplier Dataset
+
+Captures supplier reliability and delivery performance.
+
+Field	Type	Description
+
+supplier_id	String	Unique supplier identifier
+supplier_name	String	Supplier name
+material_id	String	Material supplied
+avg_lead_time_days	Integer	Historical average lead time
+on_time_delivery_rate	Float	% of deliveries made on time
+current_delay_flag	Boolean	Whether supplier has active delay
+delay_reason	String	Text describing disruption cause
+reliability_score	Float	Composite score (0–1)
+
+
+
+---
+
+B. Procurement Dataset
+
+Holds purchase orders, material demands, and sourcing options.
+
+Field	Type	Description
+
+po_id	String	Purchase order identifier
+material_id	String	Material ordered
+supplier_id	String	Linked supplier
+order_date	Date	Date of order
+expected_delivery_date	Date	Planned delivery date
+quantity_ordered	Float	Units ordered
+unit_price	Float	Cost per unit
+expedite_option	Boolean	Can order be expedited?
+alternate_supplier_ids	Array[String]	List of backup suppliers
+
+
+
+---
+
+C. Logistics Dataset
+
+Represents shipment tracking, routing, and delay events.
+
+Field	Type	Description
+
+shipment_id	String	Shipment identifier
+po_id	String	Linked purchase order
+origin	String	Supplier location
+destination	String	Plant location
+route_id	String	Assigned route
+carrier_id	String	Transport provider
+status	String	e.g., In Transit, Delayed, Delivered
+estimated_arrival	DateTime	Predicted arrival
+delay_reason	String	Cause of delay
+reroute_possible	Boolean	Can be re-routed
+
+
+
+---
+
+D. Production Dataset
+
+Tracks material consumption and production priorities.
+
+Field	Type	Description
+
+plant_id	String	Manufacturing plant
+material_id	String	Material used
+inventory_level	Float	Current stock
+daily_consumption_rate	Float	Usage per day
+criticality_score	Float	Impact on production (0–1)
+current_status	String	e.g., Running, Paused, Low Material
