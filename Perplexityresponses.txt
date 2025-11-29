@@ -1,0 +1,58 @@
+Building a Gen AI Solution for Swiss Re (Human-in-the-Loop)
+Given their context, here’s what you need to keep in mind:
+1. Align with Data Mesh Architecture
+•	Domain Ownership: Your AI solution must respect domain boundaries. Each domain should own its AI models/outputs
+•	Application Registration: Treat your AI/ML processes as registered applications with clear business/IT ownership
+•	Data Exchange Agreements: Document explicit agreements for cross-domain data flows used by AI pipelines
+•	Analytical Data Models: Leverage Swiss Re’s core data products as your AI training/inference foundation
+2. Observability & Traceability (Critical for Trust)
+•	Model Provenance: Track model versions, training data, feature lineage, and output derivations
+•	Decision Audit Trails: Log all AI recommendations, human decisions (approve/reject), and reasoning
+•	Cost Attribution: Attribute inference costs back to domains/applications for transparency
+•	Explainability: Build model interpretability into your solution (feature importance, decision rules, confidence scores)
+3. Human-in-the-Loop Design
+•	Clear Decision Boundaries: Define where AI makes autonomous decisions vs. where humans must intervene
+•	Confidence Thresholds: Set explicit confidence levels triggering human review
+•	Feedback Loops: Capture human corrections to continuously improve models
+•	Governance Checkpoints: Build compliance validation before AI outputs reach business systems
+•	Override Capability: Ensure humans can easily override, escalate, or request additional context
+4. Document Handling (Insurance-Specific)
+Swiss Re processes insurance submissions, policies, and claims. Consider:
+•	Multi-modal AI: Handle documents (PDFs, images), tables, text extraction
+•	Named Entity Recognition: Extract policy numbers, claim amounts, dates, parties
+•	Document Classification: Route documents to appropriate domains/teams
+•	Information Harmonization: Standardize extracted data across document types
+•	Quality Validation: Human verification of extracted/categorized information before downstream use
+5. Data Quality & Compliance
+•	Input Validation: Ensure training/inference data meets Swiss Re’s data governance standards
+•	Regulatory Compliance: Insurance operates under strict regulations (PII handling, data retention, audit trails)
+•	Data Lineage: Connect AI outputs back to source documents for compliance audits
+•	Retention Policies: Align with Swiss Re’s existing 50%+ archive optimization practices
+•	Access Controls: Implement role-based access (discoverer role for metadata, restricted for sensitive outputs)
+6. Cost-Conscious Implementation
+•	Compute Optimization: Monitor inference compute like Swiss Re monitors batch jobs (avoid overprovisioning)
+•	Caching Strategies: Cache embeddings, model outputs for repeated documents
+•	Batch vs. Real-time: Batch processing for large document volumes, real-time for critical paths
+•	Storage Efficiency: Only store necessary extracted fields, follow Swiss Re’s column propagation principles
+•	Cost Dashboard Integration: Attribute AI costs to applications/domains like Swiss Re does
+7. Integration Points
+•	Foundry Integration: Build on Foundry APIs for data ingestion and output storage
+•	Existing Workflows: Integrate AI recommendations into Swiss Re’s existing actuarial, underwriting, and claims processes
+•	API-First Design: Create APIs for domain teams to consume AI predictions
+•	Monitoring: Hook into Swiss Re’s Heuristics Dashboard to surface unusual AI patterns (drift, bias, overconfidence)
+8. Governance & Risk
+•	Model Governance: Define owners, approval workflows, and versioning strategies
+•	Bias Monitoring: Track demographic/domain-based performance disparities
+•	Drift Detection: Monitor for data/model drift that could compromise decisions
+•	Escalation Protocols: Clear procedures for flagged decisions or model failures
+•	Documentation: Maintain model cards, training data documentation, and assumption logs
+9. Insurance-Specific Considerations
+•	Underwriting Context: AI assists underwriters but doesn’t replace risk judgment
+•	Claims Processing: AI categorizes/routes claims, humans validate and approve
+•	Pricing & Treaty Management: AI identifies patterns; actuaries make final decisions
+•	Compliance Reporting: All AI-assisted decisions must be explainable for regulator audits
+10. Change Management
+•	User Training: Platform has 14,000 users; train domain teams on AI capabilities and limitations
+•	Adoption Metrics: Track AI recommendation acceptance rates by domain
+•	Feedback Mechanism: Collect user feedback to prioritize improvements
+•	Incremental Rollout: Start with lower-risk domains (e.g., document classification) before high-stakes (pricing)
